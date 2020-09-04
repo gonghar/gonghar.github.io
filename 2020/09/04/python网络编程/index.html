@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/9 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="套接字套接字是计算机网络数据架构 起源：最初用来设计进程之间通信 1.（IPC）2.Inter Process Communication 分类：  基于文件（IPC）第一个套接字：AF_UNIX     AF:address family  基于网络 网络套接字 AF_INET AF_INET6   套接字地址家族：  AF_UNIX AF_NETLINK 进行用户级别和内核级别代码之间的IPC">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/09/index.html">
+<meta property="og:url" content="http://example.com/2020/09/04/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="套接字套接字是计算机网络数据架构 起源：最初用来设计进程之间通信 1.（IPC）2.Inter Process Communication 分类：  基于文件（IPC）第一个套接字：AF_UNIX     AF:address family  基于网络 网络套接字 AF_INET AF_INET6   套接字地址家族：  AF_UNIX AF_NETLINK 进行用户级别和内核级别代码之间的IPC">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-04T09:24:54.479Z">
+<meta property="article:modified_time" content="2020-09-04T09:24:54.483Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -150,181 +154,191 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python网络编程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="套接字"><a href="#套接字" class="headerlink" title="套接字"></a>套接字</h1><p>套接字是计算机网络数据架构</p>
+<p>起源：最初用来设计进程之间通信 1.（IPC）2.Inter Process Communication</p>
+<p>分类：</p>
+<ol>
+<li><p>基于文件（IPC）第一个套接字：AF_UNIX     AF:address family</p>
+</li>
+<li><p>基于网络 网络套接字</p>
+<p>AF_INET</p>
+<p>AF_INET6</p>
+</li>
+</ol>
+<p>套接字地址家族：</p>
+<ol>
+<li>AF_UNIX</li>
+<li>AF_NETLINK 进行用户级别和内核级别代码之间的IPC</li>
+<li>AF_INET 基于网络的套接字ipv4</li>
+<li>AF_INET6 基于网络的套接字ipv6</li>
+</ol>
+<p>套接字地址</p>
+<ol>
+<li><p>IP与port</p>
+<p>端口范围：</p>
+<ul>
+<li>0~65535   2的16次方减一</li>
+<li>0~1024预留系统端口号</li>
+</ul>
+</li>
+<li><p>Python中一般使用元祖保存</p>
+<p>例如：（’192.168.1.1,80’）</p>
+</li>
+</ol>
+<p>套接字分类</p>
+<ol>
+<li>面向对象 TCP（传输控制协议） SOCK_STREAM</li>
+<li>无连接 UDP（用户数据包协议） SOCK_DGRAM</li>
+<li>Python下创建socket对象<ul>
+<li>socket(socket_family,socket_type,protocol=0)</li>
+<li>创建套接字之后就可以使用套接字对象的方法进行网络编程。</li>
+</ul>
+</li>
+</ol>
+<h2 id="什么是-Socket"><a href="#什么是-Socket" class="headerlink" title="什么是 Socket?"></a>什么是 Socket?</h2><p>Socket又称”套接字”，应用程序通常通过”套接字”向网络发出请求或者应答网络请求，使主机间或者一台计算机上的进程间可以通讯。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/node.js%E8%B7%91%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:26:17.183Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/04/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/python%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:25:12.787Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:54.479Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2020/09/04/python%E5%AD%A6%E4%B9%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:29.107Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T09:24:08.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T08:37:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/04/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/hello-world/" class="archive-article-date">
-  	<time datetime="2020-09-04T08:33:19.639Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/04/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -347,8 +361,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
